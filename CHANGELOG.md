@@ -1,5 +1,26 @@
 ﻿# CetakPro Changelog
 
+## v1.1.0 - Kartu Nama Generator
+Tanggal: 14 Juni 2026
+
+### Added
+- Modul Kartu Nama Generator.
+- Route baru: /generate/kartu-nama.
+- Preset ukuran kartu nama: Standard Indonesia, International, Square, dan Custom.
+- Form kartu nama dengan section Ukuran & Produksi, Identitas, Kontak, Gaya Visual, dan Output.
+- Preview kartu nama satu sisi dan dua sisi.
+- Dukungan QR Code untuk kartu nama.
+- Premium prompt output untuk kartu nama.
+- TEXT LOCK untuk menjaga teks tetap sesuai input user.
+- Detail produksi cetak kartu nama: bleed, safe area, material, finishing, CMYK, dan QR check.
+- History category untuk Kartu Nama.
+- Copy Prompt, Export TXT, dan Save History untuk modul Kartu Nama.
+
+### Improved
+- Akses kategori generate bertambah tanpa mengganggu modul lama.
+- Konsistensi output prompt antar modul semakin rapi.
+- Workflow CetakPro diperluas untuk kebutuhan cetak kartu nama.
+
 ## v1.0.2 - Premium Prompt & Friendly Form Upgrade
 Tanggal: 14 Juni 2026
 
@@ -11,7 +32,7 @@ Tanggal: 14 Juni 2026
 
 ### Improved
 - Output prompt lebih detail, lebih komersial, dan lebih siap produksi cetak.
-- Istilah teknis dibuat lebih mudah dipahami.
+- Istilah teknis seperti CTA, Bleed, Gutter, Cutline, dan Dieline dibuat lebih mudah dipahami.
 - Konsistensi output prompt antar modul ditingkatkan.
 
 ## v1.0.0 - Core Release
@@ -34,3 +55,7 @@ Tanggal: 13 Juni 2026
 - Settings page.
 - License FREE / DEMO-PRO.
 - Vercel SPA routing fix.
+
+### Notes
+- v1.0.0 adalah versi live pertama CetakPro.
+- Fokus utama: layout calculator dan prompt generator untuk kebutuhan digital printing.
