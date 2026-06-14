@@ -3,6 +3,7 @@ import PreviewLayoutGrid from '../components/PreviewLayoutGrid';
 import { getPaperSize, paperSizes } from '../data/paperSizes';
 import { calculateLayout } from '../engine/calculateLayout';
 import { formatCm } from '../utils/formatters';
+import FormLabel from '../components/FormLabel';
 
 const initial = {
   paperId: 'a3plus-konica',
@@ -65,7 +66,7 @@ export default function LayoutMaster({ showToast }) {
         <section className="panel p-5">
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="sm:col-span-2">
-              <span className="field-label">Paper preset</span>
+              <FormLabel helpKey="paperSize">Ukuran Kertas</FormLabel>
               <select className="field" value={form.paperId} onChange={(event) => selectPaper(event.target.value)}>
                 {paperSizes.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
               </select>
@@ -77,14 +78,14 @@ export default function LayoutMaster({ showToast }) {
                 <Field label="Custom height (cm)" value={form.customHeight} onChange={(value) => setValue('customHeight', value)} />
               </>
             ) : null}
-            <Field label="Margin top" value={form.marginTop} onChange={(value) => setValue('marginTop', value)} />
-            <Field label="Margin bottom" value={form.marginBottom} onChange={(value) => setValue('marginBottom', value)} />
-            <Field label="Margin left" value={form.marginLeft} onChange={(value) => setValue('marginLeft', value)} />
-            <Field label="Margin right" value={form.marginRight} onChange={(value) => setValue('marginRight', value)} />
-            <Field label="Design width" value={form.designWidth} onChange={(value) => setValue('designWidth', value)} />
-            <Field label="Design height" value={form.designHeight} onChange={(value) => setValue('designHeight', value)} />
-            <Field label="Gap horizontal X" value={form.gapX} onChange={(value) => setValue('gapX', value)} />
-            <Field label="Gap vertical Y" value={form.gapY} onChange={(value) => setValue('gapY', value)} />
+            <Field label="Margin atas" helpKey="margin" value={form.marginTop} onChange={(value) => setValue('marginTop', value)} />
+            <Field label="Margin bawah" helpKey="margin" value={form.marginBottom} onChange={(value) => setValue('marginBottom', value)} />
+            <Field label="Margin kiri" helpKey="margin" value={form.marginLeft} onChange={(value) => setValue('marginLeft', value)} />
+            <Field label="Margin kanan" helpKey="margin" value={form.marginRight} onChange={(value) => setValue('marginRight', value)} />
+            <Field label="Ukuran Desain - Lebar" helpKey="designSize" value={form.designWidth} onChange={(value) => setValue('designWidth', value)} />
+            <Field label="Ukuran Desain - Tinggi" helpKey="designSize" value={form.designHeight} onChange={(value) => setValue('designHeight', value)} />
+            <Field label="Jarak Antar Desain X" helpKey="designGap" value={form.gapX} onChange={(value) => setValue('gapX', value)} />
+            <Field label="Jarak Antar Desain Y" helpKey="designGap" value={form.gapY} onChange={(value) => setValue('gapY', value)} />
             <label>
               <span className="field-label">Shape</span>
               <select className="field" value={form.shape} onChange={(event) => setValue('shape', event.target.value)}>
@@ -92,7 +93,7 @@ export default function LayoutMaster({ showToast }) {
               </select>
             </label>
             <label>
-              <span className="field-label">Calculation mode</span>
+              <FormLabel helpKey={form.mode === 'Rotasi' ? 'rotation' : form.mode === 'Otomatis Terbaik' ? 'autoBest' : undefined}>Mode Hitung</FormLabel>
               <select className="field" value={form.mode} onChange={(event) => setValue('mode', event.target.value)}>
                 {['Normal', 'Rotasi', 'Otomatis Terbaik'].map((item) => <option key={item}>{item}</option>)}
               </select>
@@ -104,10 +105,10 @@ export default function LayoutMaster({ showToast }) {
             <Result label="Total muat per lembar" value={result.total} />
             <Result label="Grid kolom x baris" value={`${result.columns} x ${result.rows}`} />
             <Result label="Posisi" value={result.orientation} />
-            <Result label="Area efektif" value={`${formatCm(result.effectiveWidth)} x ${formatCm(result.effectiveHeight)} cm`} hint={paper.machineNote} />
+            <Result label="Area Efektif Cetak" value={`${formatCm(result.effectiveWidth)} x ${formatCm(result.effectiveHeight)} cm`} hint={paper.machineNote} />
             <Result label="Luas layout used" value={`${formatCm(result.usedArea)} cm2`} />
-            <Result label="Sisa horizontal" value={`${formatCm(result.remainingX)} cm`} />
-            <Result label="Sisa vertical" value={`${formatCm(result.remainingY)} cm`} />
+            <Result label="Sisa Area Horizontal" value={`${formatCm(result.remainingX)} cm`} />
+            <Result label="Sisa Area Vertical" value={`${formatCm(result.remainingY)} cm`} />
             <Result label="Paper" value={`${formatCm(paperWidth)} x ${formatCm(paperHeight)} cm`} />
           </section>
           <div className={`rounded-xl border px-4 py-3 text-sm ${result.total === 0 ? 'border-amber-200 bg-amber-50 text-amber-900' : 'border-emerald-200 bg-emerald-50 text-emerald-900'}`}>
@@ -124,10 +125,10 @@ export default function LayoutMaster({ showToast }) {
   );
 }
 
-function Field({ label, value, onChange }) {
+function Field({ label, value, onChange, helpKey }) {
   return (
     <label>
-      <span className="field-label">{label}</span>
+      <FormLabel helpKey={helpKey}>{label}</FormLabel>
       <input className="field" type="number" min="0" step="0.01" value={value} onChange={(event) => onChange(event.target.value)} />
     </label>
   );

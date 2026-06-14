@@ -6,6 +6,7 @@ const items = [
   { label: 'Banner / Spanduk', path: '/generate/banner' },
   { label: 'Stiker / Label', path: '/generate/stiker-label' },
   { label: 'A3 Custom', path: '/generate/a3-custom' },
+  { label: 'Kartu Nama', path: '/generate/kartu-nama' },
   { label: 'Preset', disabled: true },
   { label: 'History', path: '/history' },
   { label: 'License', path: '/license' },

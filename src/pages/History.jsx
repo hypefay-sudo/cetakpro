@@ -52,7 +52,7 @@ export default function History({ showToast }) {
         <div className="grid gap-3 md:grid-cols-[1fr_220px]">
           <input className="field" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search history..." />
           <select className="field" value={category} onChange={(event) => setCategory(event.target.value)}>
-            {['All', 'Banner', 'Sticker', 'A3 Custom'].map((item) => <option key={item}>{item}</option>)}
+            {['All', 'Banner', 'Sticker', 'A3 Custom', 'Kartu Nama'].map((item) => <option key={item}>{item}</option>)}
           </select>
         </div>
       </section>

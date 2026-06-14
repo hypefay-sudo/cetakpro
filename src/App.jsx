@@ -6,6 +6,7 @@ import LayoutMaster from './pages/LayoutMaster';
 import GenerateBanner from './pages/GenerateBanner';
 import GenerateStickerLabel from './pages/GenerateStickerLabel';
 import GenerateA3Custom from './pages/GenerateA3Custom';
+import GenerateBusinessCard from './pages/GenerateBusinessCard';
 import History from './pages/History';
 import Settings from './pages/Settings';
 import License from './pages/License';
@@ -47,6 +48,7 @@ export default function App() {
           <Route path="/generate/banner" element={<GenerateBanner {...appContext} />} />
           <Route path="/generate/stiker-label" element={<GenerateStickerLabel {...appContext} />} />
           <Route path="/generate/a3-custom" element={<GenerateA3Custom {...appContext} />} />
+          <Route path="/generate/kartu-nama" element={<GenerateBusinessCard {...appContext} />} />
           <Route path="/history" element={<History {...appContext} />} />
           <Route path="/settings" element={<Settings {...appContext} />} />
           <Route path="/license" element={<License {...appContext} onLicenseChange={updateLicense} />} />

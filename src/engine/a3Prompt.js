@@ -1,5 +1,5 @@
 import { defaultNegativePrompt } from '../data/negativePrompts.js';
-import { buildPromptText, cmToAr } from './promptEngine.js';
+import { buildPremiumPromptText, cmToAr } from './promptEngine.js';
 
 const clean = (value) => String(value ?? '').trim();
 
@@ -53,7 +53,7 @@ const platformInstruction = (form, paper) => {
   if (platform === 'Ideogram') {
     return 'Ideogram direction: emphasize exact text, readable typography, clean grid layout, no typo, no misspelling, and clear item separation.';
   }
-  return 'ChatGPT Image direction: use natural detailed instruction, preserve exact text from TEXT ELEMENT, print-safe layout, readable hierarchy, and clear safe margin.';
+  return 'ChatGPT Image direction: use natural detailed instruction, preserve exact text from TEXT LOCK, print-safe layout, readable hierarchy, and clear safe margin.';
 };
 
 export const buildA3Prompt = (form, paper) => {
@@ -71,52 +71,75 @@ export const buildA3Prompt = (form, paper) => {
   const titlePart = title ? `dengan judul utama '${title}'` : 'dengan judul utama yang belum diisi';
   const brandPart = brand ? `untuk brand '${brand}'` : 'untuk brand yang belum diisi';
   const subtitlePart = subtitle ? `dan subjudul '${subtitle}'` : '';
+  const hasFooterInfo = Boolean(form.showFooter && footerInfo);
 
-  return buildPromptText({
+  return buildPremiumPromptText({
+    projectBrief: [
+      `Brief proyek: desain layout A3 ${layoutType} ${brand ? `untuk brand '${brand}'` : 'untuk brand yang belum diisi'} dengan ${form.itemCount} item, ukuran ${paper.name} (${paperSize}) orientasi ${form.orientation}.`,
+      title ? `Judul utama yang ditentukan user: '${title}'.` : null,
+      subtitle ? `Subtitle yang ditentukan user: '${subtitle}'.` : null,
+      'Output ditujukan sebagai arahan layout cetak yang rapi, konsisten, mudah dibaca, grid-aware, dan siap dikembangkan menjadi artwork final.',
+    ]
+      .filter(Boolean)
+      .join(' '),
     main: [
       `Buat desain A3 custom layout ${layoutType} ukuran ${paper.name} (${paperSize}) orientasi ${form.orientation} ${brandPart} ${titlePart} ${subtitlePart}.`,
       `Gunakan format ${layoutType} dengan ${form.columns} kolom dan ${form.itemCount} item untuk kebutuhan ${layoutType.toLowerCase()}.`,
-      `Komposisi harus rapi, hierarchy jelas, mudah dibaca, memiliki grid yang konsisten, dan siap dikembangkan menjadi artwork final untuk produksi cetak.`,
-      `Mood visual: ${mood}; layout direction: ${layoutDirection}.`,
+      `Komposisi harus memiliki visual impact yang tertata, hierarchy jelas, grid konsisten, area item mudah dipindai, dan ruang informasi yang tidak crowded.`,
+      `Mood visual: ${mood}; layout direction: ${layoutDirection}. Hasil harus terasa komersial, mudah dibaca, dan siap produksi cetak.`,
     ].join(' '),
+    visualConcept: [
+      `Arah visual mengikuti ${layoutType}: ${layoutDirection}.`,
+      `Mood ${mood} dipakai untuk membangun tampilan komersial yang rapi, mudah dibandingkan, dan cocok sebagai materi cetak yang dipakai untuk promosi atau informasi produk.`,
+      `Gunakan background ${backgroundStyle} dengan spacing konsisten, area item yang image-friendly, dan emphasis yang membantu pembaca memahami isi dengan cepat.`,
+    ].join('\n'),
     layout: [
       title ? `Tempatkan title '${title}' sebagai headline utama di area header dengan hierarchy paling kuat.` : 'Sediakan area title utama di header.',
       subtitle ? `Tempatkan subtitle '${subtitle}' di bawah title sebagai informasi pendukung yang tetap terbaca.` : null,
       brand ? `Tempatkan brand '${brand}' di area header atau pojok atas sebagai identitas yang jelas.` : null,
-      `Gunakan header height ${form.headerHeight} cm untuk area judul, brand, dan subtitle.`,
-      form.showFooter ? `Gunakan footer height ${form.footerHeight} cm untuk info footer${footerInfo ? `: '${footerInfo}'` : ''}.` : 'Footer tidak perlu ditampilkan.',
-      `Susun grid item ${form.columns} kolom dengan total ${form.itemCount} item, menggunakan gutter ${form.gutter} cm agar jarak antar item konsisten.`,
+      `Gunakan tinggi area judul ${form.headerHeight} cm untuk judul, brand, dan subtitle.`,
+      form.showFooter ? `Gunakan tinggi area bawah ${form.footerHeight} cm untuk info footer${footerInfo ? `: '${footerInfo}'` : ''}.` : 'Footer tidak perlu ditampilkan.',
+      `Susun grid item ${form.columns} kolom dengan total ${form.itemCount} item, menggunakan jarak antar item ${form.gutter} cm agar jarak setiap item konsisten.`,
       'Setiap item memiliki image area/placeholder yang konsisten dan cukup besar.',
-      'Tempatkan item name di bawah/dekat image area dengan ukuran mudah dibaca.',
-      form.showPrice ? 'Tempatkan price placeholder secara konsisten pada setiap item, mudah dibandingkan dan tidak menabrak nama item.' : null,
-      form.showDescription ? 'Tempatkan description placeholder sebagai teks kecil yang tetap rapi dan tidak memenuhi kartu item.' : null,
+      'Tempatkan nama item di bawah/dekat area gambar dengan ukuran mudah dibaca.',
+      form.showPrice ? 'Tempatkan area harga secara konsisten pada setiap item, mudah dibandingkan dan tidak menabrak nama item.' : null,
+      form.showDescription ? 'Tempatkan area deskripsi sebagai teks kecil yang tetap rapi dan tidak memenuhi kartu item.' : null,
       `Gunakan margin ${form.margin} cm sebagai safe area utama di seluruh sisi kertas.`,
       'Jaga hierarchy readable, grid balanced, dan semua elemen tetap berada di dalam safe area.',
     ]
       .filter(Boolean)
       .join('\n'),
+    textLock: buildTextElements({ ...form, footerInfo }, items),
     print: [
-      `Final paper size: ${paperSize}.`,
-      `Orientation: ${form.orientation}.`,
+      `Ukuran kertas final: ${paperSize}.`,
+      `Orientasi: ${form.orientation}.`,
       `Margin: ${form.margin} cm.`,
-      `Gutter: ${form.gutter} cm.`,
-      `Header height: ${form.headerHeight} cm.`,
-      form.showFooter ? `Footer height: ${form.footerHeight} cm.` : 'Footer hidden.',
+      `Jarak antar item: ${form.gutter} cm.`,
+      `Tinggi area judul: ${form.headerHeight} cm.`,
+      form.showFooter ? `Tinggi area bawah: ${form.footerHeight} cm.` : 'Footer tidak ditampilkan.',
       'Gunakan safe area yang cukup untuk title, brand, grid item, price, description, dan footer.',
       'Rekomendasikan output resolusi tinggi untuk kebutuhan cetak, detail tajam, dan teks tetap readable.',
       'Gunakan mode warna CMYK atau workflow print-ready color management.',
       'Artwork final tetap perlu dicek ulang di software desain sebelum print, termasuk ukuran kertas, margin, gutter, safe area, spelling teks, grid alignment, dan resolusi gambar.',
     ].join('\n'),
-    text: buildTextElements({ ...form, footerInfo }, items),
-    style: [
+    platform: [
       platformInstruction(form, paper),
-      `Layout style untuk ${layoutType}: ${layoutDirection}.`,
-      `Mood: ${mood}; gunakan rasa visual ini sebagai arahan suasana, warna, dan komposisi.`,
       typography ? `Preferensi tipografi: ${typography}.` : 'Preferensi tipografi: clean readable print typography.',
-      `Background style: ${backgroundStyle}.`,
       `Primary color: ${form.primaryColor}. Secondary color: ${form.secondaryColor}.`,
-      'Pastikan typography readable, spacing rapi, card/item konsisten, dan desain tidak terlalu crowded.',
     ].join('\n'),
-    negative: defaultNegativePrompt,
+    checklist: [
+      '* Cek ukuran kertas',
+      '* Cek spelling teks',
+      '* Cek margin',
+      '* Cek gutter/jarak antar item',
+      '* Cek alignment grid',
+      '* Cek resolusi gambar',
+      '* Cek warna CMYK',
+      '* Cek keterbacaan item',
+      hasFooterInfo ? '* Cek footer/info bawah' : null,
+    ]
+      .filter(Boolean)
+      .join('\n'),
+    negative: `${defaultNegativePrompt}, inconsistent grid, misaligned item cards, unreadable price, crowded catalog layout, poor print sheet spacing`,
   });
 };

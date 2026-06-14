@@ -74,33 +74,33 @@ export default function GenerateA3Custom({ license, usage, setUsage, showToast }
               <TextField label="Main title" value={form.title} onChange={(value) => setValue('title', value)} />
               <TextField label="Brand name" value={form.brand} onChange={(value) => setValue('brand', value)} />
               <TextField label="Subtitle" value={form.subtitle} onChange={(value) => setValue('subtitle', value)} />
-              <TextField label="Footer info" value={form.footerInfo} onChange={(value) => setValue('footerInfo', value)} />
+              <TextField label="Footer info" value={form.footerInfo} placeholder="Contoh: alamat, kontak, sosial media" onChange={(value) => setValue('footerInfo', value)} />
               <div className="grid grid-cols-2 gap-3">
-                <NumberField label="Number of columns" value={form.columns} onChange={(value) => setValue('columns', Math.max(1, Math.round(value)))} step={1} />
-                <NumberField label="Number of items" value={form.itemCount} onChange={(value) => setValue('itemCount', Math.max(1, Math.round(value)))} step={1} />
+                <NumberField label="Jumlah Kolom" helpKey="columns" value={form.columns} onChange={(value) => setValue('columns', Math.max(1, Math.round(value)))} step={1} />
+                <NumberField label="Jumlah Item" helpKey="itemCount" value={form.itemCount} onChange={(value) => setValue('itemCount', Math.max(1, Math.round(value)))} step={1} />
               </div>
               <label>
                 <span className="field-label">Item names</span>
                 <textarea className="field min-h-24" value={form.items} onChange={(event) => setValue('items', event.target.value)} placeholder="Satu item per baris" />
               </label>
-              <Toggle label="Show price" checked={form.showPrice} onChange={(value) => setValue('showPrice', value)} />
-              <Toggle label="Show description" checked={form.showDescription} onChange={(value) => setValue('showDescription', value)} />
-              <Toggle label="Show footer" checked={form.showFooter} onChange={(value) => setValue('showFooter', value)} />
+              <Toggle label="Tampilkan Harga" checked={form.showPrice} onChange={(value) => setValue('showPrice', value)} />
+              <Toggle label="Tampilkan Deskripsi" checked={form.showDescription} onChange={(value) => setValue('showDescription', value)} />
+              <Toggle label="Tampilkan Footer" checked={form.showFooter} onChange={(value) => setValue('showFooter', value)} />
             </Section>
             <Section title="Grid & Margin">
               <div className="grid grid-cols-2 gap-3">
-                <NumberField label="Margin" value={form.margin} onChange={(value) => setValue('margin', value)} />
-                <NumberField label="Gutter" value={form.gutter} onChange={(value) => setValue('gutter', value)} />
-                <NumberField label="Header height" value={form.headerHeight} onChange={(value) => setValue('headerHeight', value)} />
-                <NumberField label="Footer height" value={form.footerHeight} onChange={(value) => setValue('footerHeight', value)} />
+                <NumberField label="Margin" helpKey="margin" value={form.margin} onChange={(value) => setValue('margin', value)} />
+                <NumberField label="Jarak Antar Item" helpKey="gutter" value={form.gutter} onChange={(value) => setValue('gutter', value)} />
+                <NumberField label="Tinggi Area Judul" helpKey="headerHeight" value={form.headerHeight} onChange={(value) => setValue('headerHeight', value)} />
+                <NumberField label="Tinggi Area Bawah" helpKey="footerHeight" value={form.footerHeight} onChange={(value) => setValue('footerHeight', value)} />
               </div>
             </Section>
             <Section title="Visual Style">
-              <ColorField label="Primary color" value={form.primaryColor} onChange={(value) => setValue('primaryColor', value)} />
-              <ColorField label="Secondary color" value={form.secondaryColor} onChange={(value) => setValue('secondaryColor', value)} />
-              <TextField label="Mood" value={form.mood} onChange={(value) => setValue('mood', value)} />
-              <TextField label="Typography" value={form.typography} onChange={(value) => setValue('typography', value)} />
-              <TextField label="Background style" value={form.backgroundStyle} onChange={(value) => setValue('backgroundStyle', value)} />
+              <ColorField label="Warna Utama" value={form.primaryColor} onChange={(value) => setValue('primaryColor', value)} />
+              <ColorField label="Warna Pendukung" value={form.secondaryColor} onChange={(value) => setValue('secondaryColor', value)} />
+              <TextField label="Nuansa Desain" value={form.mood} onChange={(value) => setValue('mood', value)} />
+              <TextField label="Gaya Huruf" helpKey="typography" value={form.typography} placeholder="Contoh: Sans Serif Modern" onChange={(value) => setValue('typography', value)} />
+              <TextField label="Gaya Background" helpKey="backgroundStyle" value={form.backgroundStyle} placeholder="Contoh: clean light, orange soft, dark premium" onChange={(value) => setValue('backgroundStyle', value)} />
             </Section>
             <Section title="Output">
               <Select label="Platform" value={form.platform} options={['ChatGPT Image', 'Midjourney', 'Ideogram']} onChange={(value) => setValue('platform', value)} />

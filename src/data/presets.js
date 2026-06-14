@@ -2,6 +2,7 @@ export const presets = {
   banner: ['Promo Produk', 'Banner Sekolah', 'Grand Opening'],
   sticker: ['Label Makanan', 'Label Minuman', 'Label Kopi'],
   a3: ['Katalog Produk', 'Menu Cafe', 'Price List'],
+  businessCard: ['Personal Business Card', 'Corporate Clean', 'Double-sided Premium'],
 };
 
-export const futurePresets = ['Kartu Nama', 'Undangan', 'Flyer', 'Poster'];
+export const futurePresets = ['Undangan', 'Flyer', 'Poster'];

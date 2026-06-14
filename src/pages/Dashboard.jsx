@@ -10,6 +10,10 @@ const actions = [
   { title: 'A3 Custom', description: 'Grid katalog, menu, price list, dan promo sheet.', path: '/generate/a3-custom' },
 ];
 
+const newPrintProducts = [
+  { title: 'Kartu Nama', description: 'Prompt kartu nama print-ready, 1 sisi atau 2 sisi.', path: '/generate/kartu-nama' },
+];
+
 export default function Dashboard({ license }) {
   const history = getHistory();
   const usage = getDailyUsage();
@@ -38,6 +42,18 @@ export default function Dashboard({ license }) {
             <p className="mt-2 text-sm leading-6 text-slate-500">{action.description}</p>
           </Link>
         ))}
+      </section>
+
+      <section className="panel p-5">
+        <h2 className="text-base font-bold text-slate-950">Produk Cetak Baru</h2>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {newPrintProducts.map((action) => (
+            <Link key={action.path} to={action.path} className="block rounded-xl border border-slate-200 bg-slate-50 p-4 transition hover:bg-white hover:shadow-sm">
+              <p className="text-sm font-bold text-slate-950">{action.title}</p>
+              <p className="mt-2 text-sm leading-6 text-slate-500">{action.description}</p>
+            </Link>
+          ))}
+        </div>
       </section>
 
       <section className="panel p-5">

@@ -3,6 +3,7 @@ import LicenseGate from '../components/LicenseGate';
 import PreviewBanner from '../components/PreviewBanner';
 import PromptOutput from '../components/PromptOutput';
 import ReviewTextBox from '../components/ReviewTextBox';
+import FormLabel from '../components/FormLabel';
 import { buildBannerPrompt, getBannerRatioStatus } from '../engine/bannerPrompt';
 import { getDailyUsage, incrementDailyUsage } from '../utils/storage';
 
@@ -76,26 +77,26 @@ export default function GenerateBanner({ license, usage, setUsage, showToast }) 
                 <NumberField label="Height cm" value={form.height} onChange={(value) => setValue('height', value)} />
               </div>
               <Select label="Orientation" value={form.orientation} options={['Horizontal', 'Vertical']} onChange={(value) => setValue('orientation', value)} />
-              <Select label="Material" value={form.material} options={['Flexi China 280gsm', 'Flexi Korea', 'Albatros', 'Luster', 'Custom']} onChange={(value) => setValue('material', value)} />
-              <Select label="Finishing" value={form.finishing} options={['Mata Ayam', 'Selongsong', 'Laminasi', 'Tanpa Finishing']} onChange={(value) => setValue('finishing', value)} />
-              <Select label="Bleed" value={form.bleed} options={[0, 1, 2, 3]} onChange={(value) => setValue('bleed', value)} />
+              <Select label="Bahan Banner" helpKey="bannerMaterial" value={form.material} options={['Flexi China 280gsm', 'Flexi Korea', 'Albatros', 'Luster', 'Custom']} onChange={(value) => setValue('material', value)} />
+              <Select label="Finishing / Proses Akhir" helpKey="finishing" value={form.finishing} options={['Mata Ayam', 'Selongsong', 'Laminasi', 'Tanpa Finishing']} onChange={(value) => setValue('finishing', value)} />
+              <Select label="Area Lebih Cetak" helpKey="bleed" value={form.bleed} options={[0, 1, 2, 3]} onChange={(value) => setValue('bleed', value)} />
             </Section>
             <Section title="Konten Teks">
               {[
                 ['brand', 'Brand / Logo text'],
                 ['headline', 'Headline utama'],
                 ['subheadline', 'Subheadline'],
-                ['cta', 'CTA'],
+                ['cta', 'Ajakan / Tombol Aksi', 'Contoh: Pesan Sekarang', 'action'],
                 ['phone', 'Phone / WhatsApp'],
                 ['website', 'Website'],
                 ['address', 'Address'],
-              ].map(([key, label]) => <TextField key={key} label={label} value={form[key]} onChange={(value) => setValue(key, value)} />)}
+              ].map(([key, label, placeholder, helpKey]) => <TextField key={key} label={label} value={form[key]} placeholder={placeholder} helpKey={helpKey} onChange={(value) => setValue(key, value)} />)}
             </Section>
             <Section title="Gaya Visual">
               <Select label="Theme" value={form.theme} options={['Modern & Profesional', 'Promo Cerah', 'Corporate', 'Minimalis', 'Futuristik', 'Sekolah', 'Food Promo']} onChange={(value) => setValue('theme', value)} />
-              <ColorField label="Primary color" value={form.primaryColor} onChange={(value) => setValue('primaryColor', value)} />
-              <TextField label="Target audience" value={form.audience} onChange={(value) => setValue('audience', value)} />
-              <TextField label="Visual elements" value={form.visualElements} onChange={(value) => setValue('visualElements', value)} />
+              <ColorField label="Warna Utama" value={form.primaryColor} onChange={(value) => setValue('primaryColor', value)} />
+              <TextField label="Target Pembaca / Pelanggan" value={form.audience} placeholder="Contoh: calon pembeli, pelajar, owner percetakan" helpKey="audience" onChange={(value) => setValue('audience', value)} />
+              <TextField label="Elemen Gambar" value={form.visualElements} placeholder="Contoh: mesin cetak, produk, pattern modern" helpKey="visualElements" onChange={(value) => setValue('visualElements', value)} />
             </Section>
             <Section title="Output">
               <Select label="Platform" value={form.platform} options={['ChatGPT Image', 'Midjourney', 'Ideogram']} onChange={(value) => setValue('platform', value)} />
@@ -106,7 +107,7 @@ export default function GenerateBanner({ license, usage, setUsage, showToast }) 
                   ['Brand / Logo Text', form.brand],
                   ['Headline Utama', form.headline],
                   ['Subheadline', form.subheadline],
-                  ['CTA', form.cta],
+                  ['Ajakan / Tombol Aksi', form.cta],
                   ['WhatsApp', form.phone],
                   ['Website', form.website],
                   ['Alamat', form.address],
@@ -124,7 +125,7 @@ export default function GenerateBanner({ license, usage, setUsage, showToast }) 
           </section>
           <div className="min-w-0 space-y-4">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">Ratio {ratio.ratio.toFixed(2)} / {ratio.label}</span>
+              <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">Rasio Ukuran {ratio.ratio.toFixed(2)} / {ratio.label}</span>
               <button className="btn-secondary" type="button" onClick={() => setGuide((value) => !value)}>Guide {guide ? 'On' : 'Off'}</button>
             </div>
             <PreviewBanner form={form} guide={guide} />
@@ -155,28 +156,28 @@ export function Section({ title, children }) {
   );
 }
 
-export function TextField({ label, value, onChange }) {
+export function TextField({ label, value, onChange, placeholder, helpKey }) {
   return (
     <label>
-      <span className="field-label">{label}</span>
-      <input className="field" value={value} onChange={(event) => onChange(event.target.value)} />
+      <FormLabel helpKey={helpKey}>{label}</FormLabel>
+      <input className="field" value={value} placeholder={placeholder} onChange={(event) => onChange(event.target.value)} />
     </label>
   );
 }
 
-export function NumberField({ label, value, onChange, step = 0.1 }) {
+export function NumberField({ label, value, onChange, step = 0.1, helpKey }) {
   return (
     <label>
-      <span className="field-label">{label}</span>
+      <FormLabel helpKey={helpKey}>{label}</FormLabel>
       <input className="field" type="number" min="0" step={step} value={value} onChange={(event) => onChange(Math.max(0, Number(event.target.value)))} />
     </label>
   );
 }
 
-export function Select({ label, value, options, onChange }) {
+export function Select({ label, value, options, onChange, helpKey }) {
   return (
     <label>
-      <span className="field-label">{label}</span>
+      <FormLabel helpKey={helpKey}>{label}</FormLabel>
       <select className="field" value={value} onChange={(event) => onChange(event.target.value)}>
         {options.map((option) => <option key={option} value={option}>{option}</option>)}
       </select>
@@ -184,10 +185,10 @@ export function Select({ label, value, options, onChange }) {
   );
 }
 
-export function ColorField({ label, value, onChange }) {
+export function ColorField({ label, value, onChange, helpKey }) {
   return (
     <label>
-      <span className="field-label">{label}</span>
+      <FormLabel helpKey={helpKey}>{label}</FormLabel>
       <div className="flex gap-2">
         <input className="h-10 w-12 rounded-lg border border-slate-200 bg-white p-1" type="color" value={value} onChange={(event) => onChange(event.target.value)} />
         <input className="field" value={value} onChange={(event) => onChange(event.target.value)} />

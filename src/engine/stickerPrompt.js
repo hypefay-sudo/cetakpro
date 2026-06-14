@@ -1,5 +1,5 @@
 import { defaultNegativePrompt } from '../data/negativePrompts.js';
-import { buildPromptText, cmToAr } from './promptEngine.js';
+import { buildPremiumPromptText, cmToAr } from './promptEngine.js';
 
 const clean = (value) => String(value ?? '').trim();
 
@@ -50,7 +50,7 @@ const platformInstruction = (form) => {
   if (platform === 'Ideogram') {
     return 'Ideogram direction: gunakan exact text, readable typography, no typo, no misspelling, clean text placement, and strong letter clarity inside the safe area.';
   }
-  return 'ChatGPT Image direction: gunakan instruksi natural yang detail, tekankan exact text sesuai TEXT ELEMENT, print-safe label layout, clear hierarchy, cutline-aware spacing, and safe margin cukup.';
+  return 'ChatGPT Image direction: gunakan instruksi natural yang detail, tekankan exact text sesuai TEXT LOCK, print-safe label layout, clear hierarchy, cutline-aware spacing, and safe margin cukup.';
 };
 
 export const buildStickerPrompt = (form) => {
@@ -70,13 +70,29 @@ export const buildStickerPrompt = (form) => {
   const brandPart = brand ? `untuk brand '${brand}'` : 'untuk brand yang belum diisi';
   const productPart = productName ? `dan produk '${productName}'` : 'dan produk yang belum diisi';
   const variantPart = variant ? ` varian '${variant}'` : '';
+  const hasBarcodeOrQr = Boolean(form.barcode || form.qr);
+  const hasExpiryOrLegal = Boolean(form.expired || form.legal || clean(form.expiredDateText) || clean(form.legalInfo));
 
-  return buildPromptText({
+  return buildPremiumPromptText({
+    projectBrief: [
+      `Brief proyek: desain stiker/label produk ukuran ${sizeText} berbentuk ${form.shape} ${brand ? `untuk brand '${brand}'` : 'untuk brand yang belum diisi'} ${productName ? `dan produk '${productName}'` : 'dan produk yang belum diisi'}.`,
+      variant ? `Varian yang ditentukan user: '${variant}'.` : null,
+      `Output ditujukan sebagai arahan visual packaging yang siap produksi, memperhatikan keterbacaan ukuran kecil, cutline, safe area, material ${material}, finishing ${form.finishing}, dan daya tarik produk untuk penggunaan ${usage}.`,
+    ]
+      .filter(Boolean)
+      .join(' '),
     main: [
       `Buat desain stiker/label produk ukuran ${sizeText} berbentuk ${form.shape} ${brandPart} ${productPart}${variantPart}.`,
-      `Gunakan gaya ${style}, tampilan ${styleDirection}, material ${material}, dan penggunaan ${usage}.`,
-      'Desain harus mudah dibaca pada ukuran label sebenarnya, memiliki hierarchy produk yang jelas, dan siap dikembangkan menjadi artwork final untuk produksi cetak dan cutting.',
+      `Gunakan gaya ${style} dengan tampilan ${styleDirection}, material ${material}, dan penggunaan ${usage}.`,
+      'Desain harus memiliki shelf appeal yang kuat, hierarchy produk yang cepat terbaca, informasi penting yang rapi, serta komposisi bersih yang tidak crowded pada ukuran label sebenarnya.',
+      'Hasil harus siap dikembangkan menjadi artwork final untuk produksi cetak dan cutting, dengan cutline, bleed, dan safe area yang aman.',
     ].join(' '),
+    visualConcept: [
+      `Bangun kesan packaging komersial: ${styleDirection}.`,
+      `Nama produk harus mudah dikenali, daya tarik produk terasa jelas, dan visual tetap terbaca pada ukuran label sebenarnya.`,
+      `Material-aware direction: ${materialNote}.`,
+      `Gunakan elemen visual ${visualElements} sebagai aksen produk yang mendukung identitas kemasan, memberi kesan retail-ready, dan tidak menutupi teks.`,
+    ].join('\n'),
     layout: [
       brand ? `Tempatkan brand '${brand}' di area atas atau area utama yang mudah dikenali.` : 'Sediakan area brand di bagian atas atau area utama label.',
       productName ? `Tempatkan product name '${productName}' sebagai fokus terbesar dengan hierarchy paling kuat.` : 'Sediakan area product name sebagai fokus terbesar.',
@@ -93,6 +109,7 @@ export const buildStickerPrompt = (form) => {
     ]
       .filter(Boolean)
       .join('\n'),
+    textLock: buildTextElements(form),
     print: [
       `Final label size: ${sizeText}.`,
       `Shape: ${form.shape}.`,
@@ -103,16 +120,24 @@ export const buildStickerPrompt = (form) => {
       'Rekomendasikan output resolusi tinggi, detail tajam, dan workflow CMYK atau print-ready color management.',
       'Final artwork tetap perlu dicek ulang di software desain sebelum print/cutting, termasuk ukuran, cutline, bleed, safe area, spelling teks, barcode/QR readability, dan posisi informasi legal.',
     ].join('\n'),
-    text: buildTextElements(form),
-    style: [
+    platform: [
       platformInstruction(form),
-      `Style direction untuk ${style}: ${styleDirection}.`,
-      `Material note untuk ${material}: ${materialNote}.`,
-      `Primary color: ${form.primaryColor}. Secondary color: ${form.secondaryColor}.`,
-      `Typography: ${typography}.`,
-      `Visual elements: ${visualElements}.`,
-      `Usage: ${usage}; pastikan desain cocok untuk konteks penggunaan tersebut.`,
+      `Gunakan style ${style}, warna utama ${form.primaryColor}, warna pendukung ${form.secondaryColor}, dan typography ${typography}.`,
     ].join('\n'),
-    negative: defaultNegativePrompt,
+    checklist: [
+      '* Cek ukuran label',
+      '* Cek spelling teks',
+      '* Cek safe area',
+      '* Cek bleed',
+      '* Cek cutline/dieline',
+      '* Cek resolusi',
+      '* Cek warna CMYK',
+      '* Cek keterbacaan pada ukuran asli',
+      hasBarcodeOrQr ? '* Cek barcode/QR code' : null,
+      hasExpiryOrLegal ? '* Cek tanggal kedaluwarsa/legal info' : null,
+    ]
+      .filter(Boolean)
+      .join('\n'),
+    negative: `${defaultNegativePrompt}, incorrect cutline, wrong dieline, barcode unreadable, QR unreadable, text too small for label size`,
   });
 };

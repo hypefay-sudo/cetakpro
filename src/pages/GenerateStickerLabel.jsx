@@ -68,9 +68,9 @@ export default function GenerateStickerLabel({ license, usage, setUsage, showToa
               {[
                 ['brand', 'Brand'],
                 ['productName', 'Product name'],
-                ['variant', 'Variant'],
+                ['variant', 'Varian Produk'],
                 ['description', 'Description'],
-                ['weight', 'Weight/volume'],
+                ['weight', 'Berat / Isi Produk'],
               ].map(([key, label]) => <TextField key={key} label={label} value={form[key]} onChange={(value) => setValue(key, value)} />)}
             </Section>
             <Section title="Detail Ukuran">
@@ -81,30 +81,30 @@ export default function GenerateStickerLabel({ license, usage, setUsage, showToa
               </div>
               <Select label="Unit" value={form.unit} options={['mm', 'cm']} onChange={(value) => setValue('unit', value)} />
               <NumberField label="Corner radius" value={form.cornerRadius} onChange={(value) => setValue('cornerRadius', value)} />
-              <NumberField label="Bleed" value={form.bleed} onChange={(value) => setValue('bleed', value)} />
+              <NumberField label="Area Lebih Cetak" helpKey="bleed" value={form.bleed} onChange={(value) => setValue('bleed', value)} />
             </Section>
             <Section title="Material & Produksi">
-              <Select label="Material" value={form.material} options={['Vinyl White', 'Vinyl Transparent', 'Chromo', 'Kraft', 'Bontax', 'Custom']} onChange={(value) => setValue('material', value)} />
-              <Select label="Finishing" value={form.finishing} options={['Glossy', 'Doff', 'Tanpa Laminasi']} onChange={(value) => setValue('finishing', value)} />
+              <Select label="Bahan Stiker / Label" helpKey="stickerMaterial" value={form.material} options={['Vinyl White', 'Vinyl Transparent', 'Chromo', 'Kraft', 'Bontax', 'Custom']} onChange={(value) => setValue('material', value)} />
+              <Select label="Finishing / Lapisan Akhir" helpKey="finishing" value={form.finishing} options={['Glossy', 'Doff', 'Tanpa Laminasi']} onChange={(value) => setValue('finishing', value)} />
               <Select label="Printer" value={form.printer} options={['Digital / Inkjet', 'Offset']} onChange={(value) => setValue('printer', value)} />
               <Select label="Usage" value={form.usage} options={['Indoor', 'Outdoor', 'Packaging']} onChange={(value) => setValue('usage', value)} />
             </Section>
             <Section title="Gaya Visual">
-              <ColorField label="Primary color" value={form.primaryColor} onChange={(value) => setValue('primaryColor', value)} />
-              <ColorField label="Secondary color" value={form.secondaryColor} onChange={(value) => setValue('secondaryColor', value)} />
+              <ColorField label="Warna Utama" value={form.primaryColor} onChange={(value) => setValue('primaryColor', value)} />
+              <ColorField label="Warna Pendukung" value={form.secondaryColor} onChange={(value) => setValue('secondaryColor', value)} />
               <Select label="Style" value={form.style} options={['Minimalis', 'Premium', 'Cute', 'Natural', 'Modern', 'Bold']} onChange={(value) => setValue('style', value)} />
-              <TextField label="Typography" value={form.typography} onChange={(value) => setValue('typography', value)} />
-              <TextField label="Visual elements" value={form.visualElements} onChange={(value) => setValue('visualElements', value)} />
+              <TextField label="Gaya Huruf" helpKey="typography" value={form.typography} onChange={(value) => setValue('typography', value)} />
+              <TextField label="Elemen Gambar" helpKey="visualElements" value={form.visualElements} placeholder="Contoh: biji kopi, daun, ilustrasi produk" onChange={(value) => setValue('visualElements', value)} />
             </Section>
             <Section title="Elemen Tambahan">
-              <TextField label="Composition" value={form.composition} onChange={(value) => setValue('composition', value)} />
-              <TextField label="Expired Date" value={form.expiredDateText} onChange={(value) => setValue('expiredDateText', value)} />
+              <TextField label="Komposisi Produk" helpKey="composition" value={form.composition} placeholder="Contoh: kopi arabica, gula, susu" onChange={(value) => setValue('composition', value)} />
+              <TextField label="Tanggal Kedaluwarsa" helpKey="expiredDate" value={form.expiredDateText} placeholder="Contoh: 20-12-2026" onChange={(value) => setValue('expiredDateText', value)} />
               <TextField label="Social Media" value={form.socialMedia} onChange={(value) => setValue('socialMedia', value)} />
               <TextField label="Legal Info" value={form.legalInfo} onChange={(value) => setValue('legalInfo', value)} />
               <div className="grid grid-cols-2 gap-2">
                 {[
                   ['barcode', 'Barcode'],
-                  ['qr', 'QR code'],
+                  ['qr', 'QR Code'],
                   ['halal', 'Halal icon'],
                   ['expired', 'Expired date'],
                   ['batch', 'Batch number'],

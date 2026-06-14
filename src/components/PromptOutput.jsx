@@ -2,7 +2,21 @@ import { useMemo, useState } from 'react';
 import { exportTxt } from '../utils/exportTxt';
 import { saveHistoryItem } from '../utils/storage';
 
-const titles = ['PROMPT UTAMA', 'LAYOUT INSTRUCTION', 'PRINT DETAIL', 'TEXT ELEMENT', 'STYLE DIRECTION', 'NEGATIVE PROMPT'];
+const titles = [
+  'PROJECT BRIEF',
+  'PROMPT UTAMA',
+  'KONSEP VISUAL',
+  'LAYOUT & KOMPOSISI',
+  'TEXT LOCK',
+  'PRINT PRODUCTION DETAIL',
+  'AI PLATFORM INSTRUCTION',
+  'QUALITY CONTROL CHECKLIST',
+  'LAYOUT INSTRUCTION',
+  'PRINT DETAIL',
+  'TEXT ELEMENT',
+  'STYLE DIRECTION',
+  'NEGATIVE PROMPT',
+];
 
 const splitPrompt = (prompt) => {
   if (!prompt) return [];

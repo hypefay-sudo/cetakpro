@@ -27,3 +27,16 @@ export const buildPromptText = (parts) =>
     section('STYLE DIRECTION', parts.style),
     section('NEGATIVE PROMPT', parts.negative),
   ].join('\n\n');
+
+export const buildPremiumPromptText = (parts) =>
+  [
+    section('PROJECT BRIEF', parts.projectBrief),
+    section('PROMPT UTAMA', parts.main),
+    section('KONSEP VISUAL', parts.visualConcept),
+    section('LAYOUT & KOMPOSISI', parts.layout),
+    section('TEXT LOCK', parts.textLock),
+    section('PRINT PRODUCTION DETAIL', parts.print),
+    section('AI PLATFORM INSTRUCTION', parts.platform),
+    section('QUALITY CONTROL CHECKLIST', parts.checklist),
+    section('NEGATIVE PROMPT', parts.negative),
+  ].join('\n\n');
