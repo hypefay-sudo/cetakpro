@@ -5,15 +5,15 @@
 4 silly config load:file:C:\Users\VICTUS\OneDrive\Documents\CETAK PRO by frldvsn\.npmrc
 5 silly config load:file:C:\Users\VICTUS\.npmrc
 6 silly config load:file:C:\Users\VICTUS\AppData\Roaming\npm\etc\npmrc
-7 verbose title npm run build
-8 verbose argv "run" "build"
-9 verbose logfile logs-max:10 dir:C:\Users\VICTUS\OneDrive\Documents\CETAK PRO by frldvsn\.npm-cache\_logs\2026-06-14T13_28_20_579Z-
-10 verbose logfile C:\Users\VICTUS\OneDrive\Documents\CETAK PRO by frldvsn\.npm-cache\_logs\2026-06-14T13_28_20_579Z-debug-0.log
+7 verbose title npm run dev
+8 verbose argv "run" "dev"
+9 verbose logfile logs-max:10 dir:C:\Users\VICTUS\OneDrive\Documents\CETAK PRO by frldvsn\.npm-cache\_logs\2026-06-14T14_18_03_028Z-
+10 verbose logfile C:\Users\VICTUS\OneDrive\Documents\CETAK PRO by frldvsn\.npm-cache\_logs\2026-06-14T14_18_03_028Z-debug-0.log
 11 silly logfile start cleaning logs, removing 1 files
 12 silly logfile done cleaning log files
 13 verbose cwd C:\Users\VICTUS\OneDrive\Documents\CETAK PRO by frldvsn
 14 verbose os Windows_NT 10.0.26200
 15 verbose node v24.16.0
 16 verbose npm  v11.13.0
-17 verbose exit 0
-18 info ok
+17 verbose exit -1
+18 verbose code -1
