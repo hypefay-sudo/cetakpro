@@ -20,6 +20,12 @@ body {
   min-height: 100vh;
 }
 
+html,
+body,
+#root {
+  overflow-x: hidden;
+}
+
 button,
 input,
 textarea,

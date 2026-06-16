@@ -38,7 +38,7 @@ export default function PromptOutput({ prompt, category, title, formData, platfo
   const copyPrompt = async () => {
     if (!prompt) return;
     await navigator.clipboard.writeText(prompt);
-    onToast?.('Prompt berhasil disalin.');
+    onToast?.('Prompt berhasil disalin');
   };
 
   const save = () => {
@@ -57,7 +57,13 @@ export default function PromptOutput({ prompt, category, title, formData, platfo
       },
       isPro,
     );
-    onToast?.('Prompt tersimpan ke history.');
+    onToast?.('Prompt tersimpan ke History');
+  };
+
+  const exportPrompt = () => {
+    if (!prompt) return;
+    exportTxt(`${title || category}.txt`, prompt);
+    onToast?.('File TXT berhasil dibuat');
   };
 
   return (
@@ -93,7 +99,7 @@ export default function PromptOutput({ prompt, category, title, formData, platfo
         <button className="btn-secondary" type="button" disabled={!prompt} onClick={copyPrompt}>
           Copy Prompt
         </button>
-        <button className="btn-secondary" type="button" disabled={!prompt} onClick={() => exportTxt(`${title || category}.txt`, prompt)}>
+        <button className="btn-secondary" type="button" disabled={!prompt} onClick={exportPrompt}>
           Export TXT
         </button>
         <button className="btn-success" type="button" disabled={!prompt} onClick={save}>

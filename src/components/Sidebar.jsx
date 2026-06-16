@@ -35,8 +35,10 @@ export default function Sidebar() {
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `block rounded-lg px-3 py-2.5 text-sm font-medium transition ${
-                  isActive ? 'bg-brand-600 text-white' : 'text-slate-300 hover:bg-white/10 hover:text-white'
+                `block rounded-lg border px-3 py-2.5 text-sm font-medium transition ${
+                  isActive
+                    ? 'border-brand-500 bg-brand-600 text-white shadow-sm'
+                    : 'border-transparent text-slate-300 hover:bg-white/10 hover:text-white'
                 }`
               }
             >

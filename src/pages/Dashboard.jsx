@@ -14,6 +14,8 @@ const newPrintProducts = [
   { title: 'Kartu Nama', description: 'Prompt kartu nama print-ready, 1 sisi atau 2 sisi.', path: '/generate/kartu-nama' },
 ];
 
+const displayCategory = (category) => (category === 'Sticker' ? 'Stiker / Label' : category);
+
 export default function Dashboard({ license }) {
   const history = getHistory();
   const usage = getDailyUsage();
@@ -69,7 +71,7 @@ export default function Dashboard({ license }) {
               <div key={item.id} className="flex items-center justify-between gap-4 py-3">
                 <div className="min-w-0">
                   <p className="truncate text-sm font-semibold text-slate-900">{item.title}</p>
-                  <p className="text-xs text-slate-500">{item.category} · {new Date(item.createdAt).toLocaleString('id-ID')}</p>
+                  <p className="text-xs text-slate-500">{displayCategory(item.category)} - {new Date(item.createdAt).toLocaleString('id-ID')}</p>
                 </div>
                 <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">{item.platform}</span>
               </div>

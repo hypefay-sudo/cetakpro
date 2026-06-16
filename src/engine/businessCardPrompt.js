@@ -45,15 +45,15 @@ const textLine = (label, value) => {
 const buildTextLock = (form) =>
   [
     'Gunakan teks persis berikut, jangan typo, jangan ubah huruf, dan jangan menambahkan teks acak:',
-    textLine('Brand', form.company),
-    textLine('Name', form.name),
-    textLine('Job title', form.jobTitle),
+    textLine('Brand / Perusahaan', form.company),
+    textLine('Nama', form.name),
+    textLine('Jabatan', form.jobTitle),
     textLine('Tagline', form.tagline),
-    textLine('Phone', form.phone),
+    textLine('WhatsApp / Telepon', form.phone),
     textLine('Email', form.email),
     textLine('Website', form.website),
     textLine('Instagram', form.instagram),
-    textLine('Address', form.address),
+    textLine('Alamat', form.address),
   ]
     .filter(Boolean)
     .join('\n');

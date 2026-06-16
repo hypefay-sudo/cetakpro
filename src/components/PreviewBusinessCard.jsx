@@ -4,16 +4,22 @@ export default function PreviewBusinessCard({ form, guide = true }) {
   const cardWidth = form.orientation === 'Portrait' ? height : width;
   const cardHeight = form.orientation === 'Portrait' ? width : height;
   const aspect = cardWidth / cardHeight;
+  const isTwoSided = form.sideMode === 'Dua Sisi';
 
   return (
-    <div className="panel p-4">
-      <p className="text-sm font-semibold text-slate-950">Live Preview</p>
-      <p className="mt-1 text-xs text-slate-500">{form.width} x {form.height} {form.unit} - {form.orientation}</p>
-      <div className="mt-4 space-y-4 rounded-xl bg-slate-100 p-4">
+    <div className="panel min-w-0 p-4">
+      <div className="flex flex-wrap items-end justify-between gap-2">
+        <div>
+          <p className="text-sm font-semibold text-slate-950">Live Preview</p>
+          <p className="mt-1 text-xs text-slate-500">{form.width} x {form.height} {form.unit} - {form.orientation}</p>
+        </div>
+        <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-semibold text-slate-600">{form.sideMode}</span>
+      </div>
+      <div className={`mt-4 grid min-w-0 gap-4 rounded-xl bg-slate-50 p-3 sm:p-4 ${isTwoSided ? 'lg:grid-cols-2' : ''}`}>
         <CardSurface title="Sisi Depan" aspect={aspect} guide={guide}>
           <FrontContent form={form} />
         </CardSurface>
-        {form.sideMode === 'Dua Sisi' ? (
+        {isTwoSided ? (
           <CardSurface title="Sisi Belakang" aspect={aspect} guide={guide}>
             <BackContent form={form} />
           </CardSurface>
@@ -26,20 +32,20 @@ export default function PreviewBusinessCard({ form, guide = true }) {
 
 function CardSurface({ title, aspect, guide, children }) {
   return (
-    <div>
+    <div className="min-w-0">
       <p className="mb-2 text-xs font-semibold uppercase text-slate-500">{title}</p>
       <div
-        className="relative mx-auto w-full max-w-xl overflow-hidden rounded-xl border bg-white shadow-soft"
-        style={{ aspectRatio: aspect, borderColor: guide ? '#fca5a5' : '#d6dbe5' }}
+        className="relative mx-auto w-full max-w-xl overflow-hidden rounded-lg border bg-white shadow-sm"
+        style={{ aspectRatio: aspect, borderColor: guide ? '#f1b9b9' : '#d6dbe5' }}
       >
         {guide ? (
           <>
-            <div className="pointer-events-none absolute inset-0 z-0 rounded-xl border border-red-300/80" />
-            <div className="pointer-events-none absolute inset-3 z-0 rounded-lg border border-dashed border-amber-300/80" />
-            <div className="pointer-events-none absolute inset-6 z-0 rounded-md border border-dashed border-brand-500/60" />
+            <div className="pointer-events-none absolute inset-0 z-0 rounded-lg border border-red-300/60" />
+            <div className="pointer-events-none absolute inset-3 z-0 rounded-md border border-dashed border-amber-300/70" />
+            <div className="pointer-events-none absolute inset-5 z-0 rounded border border-dashed border-brand-500/45 sm:inset-6" />
           </>
         ) : null}
-        <div className="absolute inset-6 z-10 min-w-0 overflow-hidden">{children}</div>
+        <div className="absolute inset-5 z-10 min-w-0 overflow-hidden sm:inset-6">{children}</div>
       </div>
     </div>
   );
@@ -52,7 +58,7 @@ function FrontContent({ form }) {
       <div className="flex min-h-0 items-start justify-between gap-4">
         <div className="min-w-0">
           <p className="truncate text-[10px] font-bold uppercase text-brand-700">{form.company || 'Nama Brand / Perusahaan'}</p>
-          <h3 className="mt-2 truncate text-xl font-extrabold leading-tight text-slate-950">{form.name || 'Nama Orang'}</h3>
+          <h3 className="mt-2 truncate text-lg font-extrabold leading-tight text-slate-950 sm:text-xl">{form.name || 'Nama Orang'}</h3>
           <p className="truncate text-xs font-medium text-slate-500">{form.jobTitle || 'Jabatan'}</p>
           {form.tagline ? <p className="mt-2 max-w-full truncate text-[10px] font-semibold text-slate-600">{form.tagline}</p> : null}
         </div>
@@ -73,7 +79,7 @@ function BackContent({ form }) {
   return (
     <div className="flex h-full min-h-0 items-center justify-between gap-5">
       <div className="min-w-0 flex-1 text-left">
-        <p className="truncate text-2xl font-extrabold text-slate-950">{form.company || 'Brand'}</p>
+        <p className="truncate text-xl font-extrabold text-slate-950 sm:text-2xl">{form.company || 'Brand / Perusahaan'}</p>
         {form.tagline ? <p className="mt-2 line-clamp-2 text-xs font-medium text-slate-500">{form.tagline}</p> : null}
         {secondary.length ? (
           <div className="mt-4 space-y-1 text-[10px] font-medium text-slate-600">
@@ -81,7 +87,7 @@ function BackContent({ form }) {
           </div>
         ) : null}
       </div>
-      {form.qr ? <QrBox large /> : <div className="h-16 w-16 rounded-xl border border-dashed border-slate-300 bg-slate-50" />}
+      {form.qr ? <QrBox large /> : null}
     </div>
   );
 }

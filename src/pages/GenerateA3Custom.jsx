@@ -53,6 +53,12 @@ export default function GenerateA3Custom({ license, usage, setUsage, showToast }
     showToast?.('Prompt A3 berhasil dibuat.');
   };
 
+  const resetForm = () => {
+    setForm(initial);
+    setPrompt('');
+    showToast?.('Form berhasil direset');
+  };
+
   return (
     <LicenseGate isPro={license.isPro} usage={usage}>
       <div className="space-y-6">
@@ -117,7 +123,7 @@ export default function GenerateA3Custom({ license, usage, setUsage, showToast }
               />
               <div className="grid grid-cols-2 gap-2 pt-2">
                 <button className="btn-primary" type="button" onClick={generate}>Generate Prompt</button>
-                <button className="btn-secondary" type="button" onClick={() => { setForm(initial); setPrompt(''); }}>Reset</button>
+                <button className="btn-secondary" type="button" onClick={resetForm}>Reset Form</button>
               </div>
             </Section>
           </section>

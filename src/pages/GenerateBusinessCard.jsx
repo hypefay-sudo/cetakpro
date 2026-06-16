@@ -74,6 +74,12 @@ export default function GenerateBusinessCard({ license, usage, setUsage, showToa
     showToast?.('Prompt kartu nama berhasil dibuat.');
   };
 
+  const resetForm = () => {
+    setForm(initial);
+    setPrompt('');
+    showToast?.('Form berhasil direset');
+  };
+
   const renderPromptOutput = () => (
     <PromptOutput
       prompt={prompt}
@@ -143,22 +149,22 @@ export default function GenerateBusinessCard({ license, usage, setUsage, showToa
               <Select label="Platform" value={form.platform} options={['ChatGPT Image', 'Midjourney', 'Ideogram']} onChange={(value) => setValue('platform', value)} />
               <Select label="Bahasa Output" value={form.language} options={['Indonesia', 'English']} onChange={(value) => setValue('language', value)} />
               <ReviewTextBox
-                labelWidth="104px"
+                labelWidth="132px"
                 fields={[
-                  ['Brand', form.company],
-                  ['Name', form.name],
-                  ['Job title', form.jobTitle],
+                  ['Brand / Perusahaan', form.company],
+                  ['Nama', form.name],
+                  ['Jabatan', form.jobTitle],
                   ['Tagline', form.tagline],
-                  ['Phone', form.phone],
+                  ['WhatsApp / Telepon', form.phone],
                   ['Email', form.email],
                   ['Website', form.website],
                   ['Instagram', form.instagram],
-                  ['Address', form.address],
+                  ['Alamat', form.address],
                 ]}
               />
               <div className="grid grid-cols-2 gap-2 pt-2">
                 <button className="btn-primary" type="button" onClick={generate}>Generate Prompt</button>
-                <button className="btn-secondary" type="button" onClick={() => { setForm(initial); setPrompt(''); }}>Reset</button>
+                <button className="btn-secondary" type="button" onClick={resetForm}>Reset Form</button>
               </div>
             </Section>
           </section>

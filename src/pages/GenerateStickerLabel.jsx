@@ -58,6 +58,12 @@ export default function GenerateStickerLabel({ license, usage, setUsage, showToa
     showToast?.('Prompt stiker berhasil dibuat.');
   };
 
+  const resetForm = () => {
+    setForm(initial);
+    setPrompt('');
+    showToast?.('Form berhasil direset');
+  };
+
   return (
     <LicenseGate isPro={license.isPro} usage={usage}>
       <div className="space-y-6">
@@ -136,12 +142,12 @@ export default function GenerateStickerLabel({ license, usage, setUsage, showToa
               />
               <div className="grid grid-cols-2 gap-2 pt-2">
                 <button className="btn-primary" type="button" onClick={generate}>Generate Prompt</button>
-                <button className="btn-secondary" type="button" onClick={() => { setForm(initial); setPrompt(''); }}>Reset</button>
+                <button className="btn-secondary" type="button" onClick={resetForm}>Reset Form</button>
               </div>
             </Section>
           </section>
           <PreviewSticker form={form} />
-          <PromptOutput prompt={prompt} category="Sticker" title={form.productName || 'Sticker Prompt'} formData={form} platform={form.platform} language={form.language} layoutSummary={`${form.width} x ${form.height} ${form.unit}`} isPro={license.isPro} onToast={showToast} />
+          <PromptOutput prompt={prompt} category="Stiker / Label" title={form.productName || 'Stiker / Label Prompt'} formData={form} platform={form.platform} language={form.language} layoutSummary={`${form.width} x ${form.height} ${form.unit}`} isPro={license.isPro} onToast={showToast} />
         </div>
       </div>
     </LicenseGate>

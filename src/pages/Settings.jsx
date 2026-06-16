@@ -48,7 +48,7 @@ export default function Settings({ showToast }) {
             <h2 className="text-base font-bold text-slate-950">Preset v1</h2>
             <div className="mt-3 space-y-3 text-sm text-slate-600">
               <PresetLine label="Banner" items={presets.banner} />
-              <PresetLine label="Sticker" items={presets.sticker} />
+              <PresetLine label="Stiker / Label" items={presets.sticker} />
               <PresetLine label="A3" items={presets.a3} />
             </div>
           </section>

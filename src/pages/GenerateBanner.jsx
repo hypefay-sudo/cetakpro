@@ -46,6 +46,12 @@ export default function GenerateBanner({ license, usage, setUsage, showToast }) 
     showToast?.('Prompt banner berhasil dibuat.');
   };
 
+  const resetForm = () => {
+    setForm(initial);
+    setPrompt('');
+    showToast?.('Form berhasil direset');
+  };
+
   const renderPromptOutput = () => (
     <PromptOutput
       prompt={prompt}
@@ -119,7 +125,7 @@ export default function GenerateBanner({ license, usage, setUsage, showToast }) 
               />
               <div className="grid grid-cols-2 gap-2 pt-2">
                 <button className="btn-primary" type="button" onClick={generate}>Generate Prompt</button>
-                <button className="btn-secondary" type="button" onClick={() => { setForm(initial); setPrompt(''); }}>Reset</button>
+                <button className="btn-secondary" type="button" onClick={resetForm}>Reset Form</button>
               </div>
             </Section>
           </section>

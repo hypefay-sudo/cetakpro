@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const items = [
   { label: 'Home', path: '/' },
@@ -9,6 +9,8 @@ const items = [
 ];
 
 export default function BottomNav() {
+  const location = useLocation();
+
   return (
     <nav className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-slate-200 bg-white px-1 pb-2 pt-1 lg:hidden">
       {items.map((item) => (
@@ -16,8 +18,10 @@ export default function BottomNav() {
           key={item.path}
           to={item.path}
           className={({ isActive }) =>
-            `rounded-lg px-1 py-2 text-center text-[11px] font-semibold ${
-              isActive ? 'bg-brand-50 text-brand-700' : 'text-slate-500'
+            `rounded-lg px-1 py-2 text-center text-[11px] font-semibold transition ${
+              isActive || (item.label === 'Generate' && location.pathname.startsWith('/generate/'))
+                ? 'bg-brand-600 text-white shadow-sm'
+                : 'text-slate-500'
             }`
           }
         >
